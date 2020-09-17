@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Asadero los pollos de Terán</title>
+    <link href="styles.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+
+    <header id="main-header">
+		
+		<a id="logo-header" href="index.html">
+            
+            <span class="site-name"><img src="DiseñoInterfaz-AsaderolosPollosdeTerán/logo.png" alt="Logo de Asadero los pollos de Terán">Asadero los pollos de Terán</span>
+            
+		</a> <!-- / #logo-header -->
+
+		<nav class="barra">
+			<ul>
+              <li ><a href="index.html">Menú</a></li>
+			  <li><a href="Registrarse.html">Registrarse</a></li>
+			  <li><a href="IniciarSesion.html">Iniciar Sesión</a></li>
+              <li><a href="Contactos.html">Contacto</a></li>
+              <li><a href="Carrito.html" ><img src="images/carrito.png" alt="Facebook del restaurante"/>   Carrito</a></li>
+			</ul>
+    </nav><!-- / nav -->
+    
+   
+    <script type="text/javascript">
+
+      function printDiv() {
+                var objeto=document.getElementById('Factura'); 
+         
+         //obtenemos el objeto a imprimir
+                var ventana=window.open('','_blank');  //abrimos una ventana vacía nueva
+                ventana.document.write(objeto.innerHTML);  //imprimimos el HTML del objeto en la nueva ventana
+                ventana.document.close();  //cerramos el documento
+                ventana.print();  //imprimimos la ventana
+                ventana.close();  //cerramos la ventana
+              }
+      </script>
+
+    <!--Factura-->
+    <div class="tituloFactura">
+      <h2>FACTURA</h2>
+    </div>
+    <div id="Factura" >
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" media="print">
+    <img class="logoPollo" src="DiseñoInterfaz-AsaderolosPollosdeTerán/ISOTIPO POLLO.png" alt="Logo de Asadero los pollos de Terán">
+    <h3 class="nombreLocal">Asadero los pollos de Terán</h3> </img>
+    <div class="palabraFactura">
+      <p>
+        FACTURA 1000897245
+      </p>
+    </div>
+    <p class="detallesLocal">
+      DIRECCIÓN: Calle 15 entre Avenidas 24 y 25 (Al lado de Frigo Dueñas)
+     <br>CIUDAD: Manta, Manabí
+     <br>TELEFONO: (+052)8889999 
+     <br><br>FECHA: 14/09/2020
+    </p>
+    <p class="detallesCliente">
+      FACTURAR A:
+     <br>RUC: 999999999
+     <br>CEDULA: 1234567890
+     <br>NOMBRE: Elsa Vera
+     <br>TELEFONO: 0988888888<br>
+    </p>
+    <table class="tablaFactura">
+      <tr>
+        <th>CODIGO</th>
+        <th width=20% >NOMBRE</th>
+        <th width=35% >DESCRIPCIÓN</th>
+        <th>VALOR UNITARIO</th>
+        <th>CANTIDAD</th>
+        <th>VALOR</th>
+      </tr>
+      <tr>
+        <td>001</td>
+        <td>Pollo Asado</td>
+        <td>Un pollo asado</td>
+        <td>$15.99</td>
+        <td>1</td>
+        <td>$15.99</td>
+      </tr>
+      <tr>
+        <td>008</td>
+        <td>Aguado de pollo</td>
+        <td>Aguado de pollo pernil</td>
+        <td>$1.25</td>
+        <td>1</td>
+        <td>$1.25</td>
+      </tr>
+      <tr>
+        <td>016</td>
+        <td>Menestra de frejol</td>
+        <td>Menestra de frejol canario</td>
+        <td>$3.99</td>
+        <td>1</td>
+        <td>$3.99</td>
+      </tr>
+      <tr>
+        <td>008</td>
+        <td>Vaso de jugo natural</td>
+        <td>Jugo natural cualquier sabor</td>
+        <td>$1.00</td>
+        <td>1</td>
+        <td>$1.00</td>
+      </tr>
+      <tr>
+        <td colspan="4" class="mod">SUBTOTAL  </td>
+        <td colspan="2" class="mod2">$22.23</td>
+      </tr>
+      <tr>
+        <td colspan="4" class="mod">I.V.A. </td>
+        <td colspan="2" class="mod2">$2.68</td>
+      </tr>
+      <tr>
+        <td colspan="4" class="mod">TOTAL </td>
+        <td colspan="2" class="mod2">$24.91</td>
+      </tr>
+    </table>
+    </div>
+    
+    <div class="zonaImprimir">
+      <!--Boton Imprimir--><!---->
+      <button onclick="printDiv()"><img class="Impresora" src="images/impresora.png" alt="Impresora"></img></button>
+      <div class="imprimirFactura">
+        <nav>
+      <button onclick="printDiv()"><strong>Imprimir Factura</strong> </button>
+        </nav>
+      </div>
+    </div> 
+
+
+	</header><!-- / #main-header -->
+    <footer class="footer">
+        <div class="pie">
+            <div>
+                <p>Asadero los pollos de Terán <br>Telefono: (+052)8889999 <br>Celular: 0999999999</p>
+            </div>
+            <div>
+              <ul class="social-media">
+                <li>
+                <a href="https://www.facebook.com/lospollosdeteran/" target="_blank">
+                <img src="images/facebook.png" alt="Facebook del restaurante"/>
+                <p class="social-link-text">Facebook</p>
+                </a>
+                </li>
+                <li>
+                  <a href="https://instagram.com/los_pollos_de_teran?igshid=9eev3dhe2c4j" target="_blank">
+                  <img src="images/instagram.png" alt="Instagram del restaurante"/>
+                  <p class="social-link-text">Instagram</p>
+                  </a>
+                  </li>
+                </ul>
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+      <script src="index.js" type="text/javascript"></script>
+      
+  </body>
+  
+  </html>

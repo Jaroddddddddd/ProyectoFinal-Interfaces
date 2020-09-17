@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Asadero los pollos de Terán</title>
+    <link href="styles2.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      window.onload = function () {
+          // Variables
+          let baseDeDatos = [
+              {
+                  id: 1,
+                  nombre: 'Un pollo asado',
+                  precio: 15.99,
+                  imagen: "DiseñoInterfaz-AsaderolosPollosdeTerán/1pollo.png"
+              },
+              {
+                  id: 2,
+                  nombre: 'Aguado de pollo',
+                  precio: 1.25,
+                  imagen: "DiseñoInterfaz-AsaderolosPollosdeTerán/aguadodepollo.png"
+              },
+              {
+                  id: 3,
+                  nombre: 'Menestra de frejol',
+                  precio: 3.99,
+                  imagen: "DiseñoInterfaz-AsaderolosPollosdeTerán/menestradefrejol.png"
+              },
+              {
+                  id: 4,
+                  nombre: 'Vaso de jugo natural',
+                  precio: 1.00,
+                  imagen: "DiseñoInterfaz-AsaderolosPollosdeTerán/jugosnaturales.png"
+              }
+
+          ]
+          let $items = document.querySelector('#items');
+          let carrito = [];
+          let total = 0;
+          let $carrito = document.querySelector('#carrito');
+          let $total = document.querySelector('#total');
+          let $botonVaciar = document.querySelector('#boton-vaciar');
+
+          // Funciones
+          function renderItems() {
+              for (let info of baseDeDatos) {
+                  // Estructura
+                  let miNodo = document.createElement('div');
+                  miNodo.classList.add('card', 'col-sm-4');
+                  // Body
+                  let miNodoCardBody = document.createElement('div');
+                  miNodoCardBody.classList.add('card-body');
+                  // Titulo
+                  let miNodoTitle = document.createElement('h5');
+                  miNodoTitle.classList.add('card-title');
+                  miNodoTitle.textContent = info['nombre'];
+                  // Imagen
+                  let miNodoImagen = document.createElement('img');
+                  miNodoImagen.classList.add('img-fluid');
+                  miNodoImagen.setAttribute('src', info['imagen']);
+                  // Precio
+                  let miNodoPrecio = document.createElement('p');
+                  miNodoPrecio.classList.add('card-text');
+                  miNodoPrecio.textContent = '$'+info['precio'];
+                  // Boton 
+                  let miNodoBoton = document.createElement('button');
+                  miNodoBoton.classList.add('btn', 'btn-primary');
+                  miNodoBoton.textContent = '+';
+                  miNodoBoton.setAttribute('marcador', info['id']);
+                  miNodoBoton.addEventListener('click', anyadirCarrito);
+                  // Insertamos
+                  miNodoCardBody.appendChild(miNodoImagen);
+                  miNodoCardBody.appendChild(miNodoTitle);
+                  miNodoCardBody.appendChild(miNodoPrecio);
+                  miNodoCardBody.appendChild(miNodoBoton);
+                  miNodo.appendChild(miNodoCardBody);
+                  $items.appendChild(miNodo);
+              }
+          }
+
+          function anyadirCarrito () {
+              // Anyadimos el Nodo a nuestro carrito
+              carrito.push(this.getAttribute('marcador'))
+              // Calculo el total
+              calcularTotal();
+              // Renderizamos el carrito 
+              renderizarCarrito();
+          }
+
+          function renderizarCarrito() {
+              // Vaciamos todo el html
+              $carrito.textContent = '';
+              // Quitamos los duplicados
+              let carritoSinDuplicados = [...new Set(carrito)];
+              // Generamos los Nodos a partir de carrito
+              carritoSinDuplicados.forEach(function (item, indice) {
+                  // Obtenemos el item que necesitamos de la variable base de datos
+                  let miItem = baseDeDatos.filter(function(itemBaseDatos) {
+                      return itemBaseDatos['id'] == item;
+                  });
+                  // Cuenta el número de veces que se repite el producto
+                  let numeroUnidadesItem = carrito.reduce(function (total, itemId) {
+                      return itemId === item ? total += 1 : total;
+                  }, 0);
+                  // Creamos el nodo del item del carrito
+                  let miNodo = document.createElement('li');
+                  miNodo.classList.add('list-group-item', 'text-right', 'mx-2');
+                  miNodo.textContent = `${numeroUnidadesItem} x ${miItem[0]['nombre']} - $${miItem[0]['precio']}`;
+                  // Boton de borrar
+                  let miBoton = document.createElement('button');
+                  miBoton.classList.add('btn', 'btn-danger', 'mx-5');
+                  miBoton.textContent = 'X';
+                  miBoton.style.marginLeft = '1rem';
+                  miBoton.setAttribute('item', item);
+                  miBoton.addEventListener('click', borrarItemCarrito);
+                  // Mezclamos nodos
+                  miNodo.appendChild(miBoton);
+                  $carrito.appendChild(miNodo);
+              })
+          }
+
+          function borrarItemCarrito() {
+              console.log()
+              // Obtenemos el producto ID que hay en el boton pulsado
+              let id = this.getAttribute('item');
+              // Borramos todos los productos
+              carrito = carrito.filter(function (carritoId) {
+                  return carritoId !== id;
+              });
+              // volvemos a renderizar
+              renderizarCarrito();
+              // Calculamos de nuevo el precio
+              calcularTotal();
+          }
+
+          function calcularTotal() {
+              // Limpiamos precio anterior
+              total = 0;
+              // Recorremos el array del carrito
+              for (let item of carrito) {
+                  // De cada elemento obtenemos su precio
+                  let miItem = baseDeDatos.filter(function(itemBaseDatos) {
+                      return itemBaseDatos['id'] == item;
+                  });
+                  total = total + miItem[0]['precio'];
+              }
+              // Formateamos el total para que solo tenga dos decimales
+              let totalDosDecimales = total.toFixed(2);
+              // Renderizamos el precio en el HTML
+              $total.textContent = totalDosDecimales;
+          }
+
+          function vaciarCarrito() {
+              // Limpiamos los productos guardados
+              carrito = [];
+              // Renderizamos los cambios
+              renderizarCarrito();
+              calcularTotal();
+          }
+
+          // Eventos
+          $botonVaciar.addEventListener('click', vaciarCarrito);
+
+          // Inicio
+          renderItems();
+      } 
+  </script>
+</head>
+<body>
+
+<div class="cab">
+  <header id="main-header">
+		
+		<a id="logo-header" href="index.html">
+            
+            <span class="site-name"><img src="DiseñoInterfaz-AsaderolosPollosdeTerán/logo.png" alt="Logo de Asadero los pollos de Terán">Asadero los pollos de Terán</span>
+            
+		</a> <!-- / #logo-header -->
+
+		<nav class="barra">
+			<ul>
+              <li ><a href="index.html">Menú</a></li>
+			  <li><a href="Registrarse.html">Registrarse</a></li>
+			  <li><a href="IniciarSesion.html">Iniciar Sesión</a></li>
+              <li><a href="Contactos.html">Contacto</a></li>
+              <li  class="active2"><a href="Carrito.html"><img src="images/carrito.png" alt="Facebook del restaurante"/>   Carrito</a></li>
+			</ul>
+		</nav><!-- / nav -->
+
+
+
+       
+	</header><!-- / #main-header -->
+</div>
+
+    <div class="ele"> 
+    <div class="container">
+        <div class="row">
+            <!-- Elementos generados a partir del JSON -->
+            <main id="items" class="col-sm-8 row"></main>
+            <!-- Carrito -->
+            <aside class="col-sm-4">
+                <h2>Carrito de compras</h2>
+                <!-- Elementos del carrito -->
+                <ul id="carrito" class="list-group"></ul>
+                <hr>
+                <!-- Precio total -->
+                <p class="text-right">Subtotal: $<span id="total"></span></p>
+                <div class="botonnes">
+                <button id="boton-vaciar" class="btn btn-danger"><strong>Vaciar</strong></button>
+                <a href="factura.html">
+                <button class="btn btn-danger"><strong>Visualizar Factura</strong></button>
+                </a>
+              </div>
+            </aside>
+        </div>
+    </div>
+  </div>
+
+<div class="baja">
+    <footer class="footer">
+      <div class="pie">
+          <div>
+              <p> Asadero los pollos de Terán <br>Telefono: (+052)8889999 <br>Celular: 0999999999</p>
+          </div>
+          <div>
+            <ul class="social-media">
+              <li>
+              <a href="https://www.facebook.com/lospollosdeteran/" target="_blank">
+              <img src="images/facebook.png" alt="Facebook del restaurante"/>
+              <p class="social-link-text">Facebook</p>
+              </a>
+              </li>
+              <li>
+                <a href="https://instagram.com/los_pollos_de_teran?igshid=9eev3dhe2c4j" target="_blank">
+                <img src="images/instagram.png" alt="Instagram del restaurante"/>
+                <p class="social-link-text">Instagram</p>
+                </a>
+                </li>
+              </ul>
+              </p>
+          </div>
+      </div>
+  </footer>
+</div>
+</body>
+</html>
